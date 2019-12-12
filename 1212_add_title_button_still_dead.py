@@ -19,16 +19,26 @@ class PanelOne(wx.Panel):
                                        size = (200, 250), style = wx.ALIGN_CENTER_VERTICAL)
         font = wx.Font(48, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_ITALIC, wx.FONTWEIGHT_BOLD)
         self.titleName.SetFont(font)
+        button_font = wx.Font(24, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_ITALIC, wx.FONTWEIGHT_BOLD)
+        self.CatButton1 =wx.Button(parent, label="懷舊老歌", pos=(0, 100), size=(400, 300))
+        self.CatButton1.SetFont(button_font)
+        self.CatButton2 =wx.Button(parent, label="聽嘻哈的小孩不會變壞", pos=(400, 100), size=(400, 300))
+        self.CatButton2.SetFont(button_font)
+        self.CatButton3 =wx.Button(parent, label="小時候我都聽周杰倫", pos=(0, 400), size=(400, 300))
+        self.CatButton3.SetFont(button_font)
+        self.CatButton4 =wx.Button(parent, label="KTV必點金曲", pos=(400, 400), size=(400, 300))
+        self.CatButton4.SetFont(button_font)
 
-        self.CatButton1 =wx.Button(self, label="懷舊老歌", pos=(200, 100), size=(150,200))
-        self.CatButton1.SetFont(font)
-        self.CatButton2 =wx.Button(self, label="聽嘻哈的小孩不會變壞", pos=(400, 100), size=(150,200))
-        self.CatButton3 =wx.Button(self, label="小時候我都聽周杰倫", pos=(200, 200), size=(150,200))
-        self.CatButton4 =wx.Button(self, label="KTV必點金曲", pos=(400, 200), size=(150,200))
+        sizer = wx.BoxSizer(wx.VERTICAL)
+        sizer.Add(self.CatButton1, 0, 0, 0)
+        sizer.Add(self.CatButton3, 0, 0, 0)
+        # sizer.SetSizeHints(self)
+        self.SetSizer(sizer)
+
 
         # self.StartButton = wx.Button(self, label="準備好了!", pos=(300,300), size=(150,200))
-        bmp1 = wx.Bitmap("karaoke.png", wx.BITMAP_TYPE_ANY)
-        self.StartButton = wx.BitmapButton(self, id=wx.ID_ANY, bitmap=bmp1, pos=(300, 300), size=(400, 300))
+        bmp_start = wx.Bitmap("karaoke.png", wx.BITMAP_TYPE_ANY)
+        self.StartButton = wx.BitmapButton(self, id=wx.ID_ANY, bitmap=bmp_start, pos=(300, 500), size=(400, 300))
 
         self.Bind(wx.EVT_BUTTON, self.ClickCat1, self.CatButton1)
 
