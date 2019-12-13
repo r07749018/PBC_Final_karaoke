@@ -15,10 +15,11 @@ class PanelOne(wx.Panel):
         # self.musicUrlList = []
         # self.song_cat = ''
 
-        self.titleName = wx.StaticText(self, label="Pick One!", pos=(320, 20),
-                                       size = (200, 250), style = wx.ALIGN_CENTER_VERTICAL)
+        self.titleName = wx.StaticText(self, label="Pick One!", pos=(0, 20),
+                                       size = (800, 250), style = wx.ALIGN_CENTER)
         font = wx.Font(48, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_ITALIC, wx.FONTWEIGHT_BOLD)
         self.titleName.SetFont(font)
+
 
 
         # button_font = wx.Font(24, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_ITALIC, wx.FONTWEIGHT_BOLD)
@@ -63,6 +64,7 @@ class PanelOne(wx.Panel):
         self.Bind(wx.EVT_BUTTON, self.ClickCat3, self.CatButton3)
         self.Bind(wx.EVT_BUTTON, self.ClickCat4, self.CatButton4)
 
+
     def ClickCat(self, content):
         # PanelTwo.count = -1
         # print(PanelTwo.score)
@@ -71,7 +73,8 @@ class PanelOne(wx.Panel):
         # PanelTwo.CorrectOrNot.SetLabel('')
         music_list_reset()
         musicUrlLoader(content)
-        # self.titleName.SetLabel(content)
+        self.titleName.SetLabel("已選擇 %s" % content)
+
 
         global song_cat
         song_cat = content + '/'
@@ -93,7 +96,7 @@ class PanelOne(wx.Panel):
         # self.ClickCat(self.CatButton3.GetLabel())
         self.ClickCat("小時候我都聽周杰倫")
 
-    def ClickCat4(self, event, parent):
+    def ClickCat4(self, event):
         # self.ClickCat(self.CatButton4.GetLabel())
         self.ClickCat("KTV必點金曲")
 
