@@ -17,7 +17,7 @@ class PanelOne(wx.Panel):
 
         self.titleName = wx.StaticText(self, label="Pick One!", pos=(0, 20),
                                        size = (800, 250), style = wx.ALIGN_CENTER)
-        font = wx.Font(48, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_ITALIC, wx.FONTWEIGHT_BOLD)
+        font = wx.Font(40, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_ITALIC, wx.FONTWEIGHT_BOLD)
         self.titleName.SetFont(font)
 
 
@@ -158,8 +158,8 @@ class PanelTwo(wx.Panel):
 
         pygame.mixer.init()
 
-    # def ResetCount(self, event):
-    #     self.count = -1
+    def ResetCount(self):
+        self.count = -1
 
 
     def OnStartClicked(self, event):
@@ -232,7 +232,7 @@ class PanelTwo(wx.Panel):
         # pygame.mixer.music.stop()
 
     def RestartFunction(self, event):
-        self.count = -1
+        # self.count = -1
         # self.score = 0
         self.GuessBox.Clear()
         pygame.mixer.music.pause()
@@ -291,6 +291,8 @@ class MyMusicPlayer(wx.Frame):
             self.panel_one.Show()
             self.panel_two.Hide()
             pygame.mixer.music.stop()
+            # 底下這行還是改不成功QQ
+            PanelTwo.ResetCount(panel_2)
         self.Layout()
 
 
@@ -316,5 +318,7 @@ def musicUrlLoader(cat):
 if __name__ == "__main__":
     app = wx.App(False)
     frame = MyMusicPlayer()
+    panel_1 = PanelOne(frame)
+    panel_2 = PanelTwo(frame)
     frame.Show()
     app.MainLoop()
