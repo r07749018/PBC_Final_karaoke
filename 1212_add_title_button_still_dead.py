@@ -286,13 +286,13 @@ class MyMusicPlayer(wx.Frame):
             self.SetTitle("PCB KTV")
             self.panel_one.Hide()
             self.panel_two.Show()
+
         else:
             self.SetTitle("PCB KTV")
             self.panel_one.Show()
             self.panel_two.Hide()
             pygame.mixer.music.stop()
-            # 底下這行還是改不成功QQ
-            PanelTwo.ResetCount(panel_2)
+            PanelTwo.ResetCount(self.panel_two)
         self.Layout()
 
 
@@ -318,7 +318,5 @@ def musicUrlLoader(cat):
 if __name__ == "__main__":
     app = wx.App(False)
     frame = MyMusicPlayer()
-    panel_1 = PanelOne(frame)
-    panel_2 = PanelTwo(frame)
     frame.Show()
     app.MainLoop()
