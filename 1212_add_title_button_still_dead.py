@@ -51,18 +51,19 @@ class PanelOne(wx.Panel):
         bmp4 = wx.Bitmap("cate1.png-4.png", wx.BITMAP_TYPE_ANY)
 
         self.CatButton1 = wx.BitmapButton(self, id=wx.ID_ANY, bitmap=bmp1, pos=(0, 100),size=(400,250))
-        # self.Bind(wx.EVT_BUTTON, parent.onSwitchPanels, self.CatButton1)
         self.CatButton2 = wx.BitmapButton(self, id=wx.ID_ANY, bitmap=bmp2, pos=(400, 100),size=(400, 250))
-        # self.Bind(wx.EVT_BUTTON, parent.onSwitchPanels, self.CatButton2)
         self.CatButton3 = wx.BitmapButton(self, id=wx.ID_ANY, bitmap=bmp3, pos=(0, 350),size=(400, 250))
-        # self.Bind(wx.EVT_BUTTON, parent.onSwitchPanels, self.CatButton3)
         self.CatButton4 = wx.BitmapButton(self, id=wx.ID_ANY, bitmap=bmp4, pos=(400, 350),size=(400, 250))
-        # self.Bind(wx.EVT_BUTTON, parent.onSwitchPanels, self.CatButton4)
 
         self.Bind(wx.EVT_BUTTON, self.ClickCat1, self.CatButton1)
         self.Bind(wx.EVT_BUTTON, self.ClickCat2, self.CatButton2)
         self.Bind(wx.EVT_BUTTON, self.ClickCat3, self.CatButton3)
         self.Bind(wx.EVT_BUTTON, self.ClickCat4, self.CatButton4)
+
+        # self.Bind(wx.EVT_BUTTON, parent.onSwitchPanels, self.CatButton1)
+        # self.Bind(wx.EVT_BUTTON, parent.onSwitchPanels, self.CatButton2)
+        # self.Bind(wx.EVT_BUTTON, parent.onSwitchPanels, self.CatButton3)
+        # self.Bind(wx.EVT_BUTTON, parent.onSwitchPanels, self.CatButton4)
 
 
     def ClickCat(self, content):
@@ -156,6 +157,9 @@ class PanelTwo(wx.Panel):
                                           , style=wx.ALIGN_CENTER_VERTICAL)
 
         pygame.mixer.init()
+
+    # def ResetCount(self, event):
+    #     self.count = -1
 
 
     def OnStartClicked(self, event):
@@ -261,16 +265,32 @@ class MyMusicPlayer(wx.Frame):
         self.sizer.Add(self.panel_two, 1, wx.EXPAND)
         self.SetSizer(self.sizer)
 
-    def onSwitchPanels(self, event):
+    # def SwitchtoPanelOne(self, event):
+    #
+    #     self.SetTitle("PCB KTV")
+    #     self.panel_one.Show()
+    #     self.panel_two.Hide()
+    #     self.Layout()
+    #     pygame.mixer.music.stop()
+    #
+    # def SwitchtoPanelTwo(self, event):
+    #
+    #     self.SetTitle("PCB KTV")
+    #     self.panel_one.Hide()
+    #     self.panel_two.Show()
+    #     self.Layout()
 
+
+    def onSwitchPanels(self, event):
         if self.panel_one.IsShown():
-           self.SetTitle("PCB KTV")
-           self.panel_one.Hide()
-           self.panel_two.Show()
+            self.SetTitle("PCB KTV")
+            self.panel_one.Hide()
+            self.panel_two.Show()
         else:
-           self.SetTitle("PCB KTV")
-           self.panel_one.Show()
-           self.panel_two.Hide()
+            self.SetTitle("PCB KTV")
+            self.panel_one.Show()
+            self.panel_two.Hide()
+            pygame.mixer.music.stop()
         self.Layout()
 
 
@@ -290,7 +310,6 @@ def musicUrlLoader(cat):
             print("找到音訊檔案",filename)
             musicUrlList.append(filename)
     print("in musicUrlloader", musicUrlList)
-
 
 
 # Run the program
