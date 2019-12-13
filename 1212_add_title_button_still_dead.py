@@ -17,9 +17,8 @@ class PanelOne(wx.Panel):
 
         self.titleName = wx.StaticText(self, label="Pick One!", pos=(0, 20),
                                        size = (800, 250), style = wx.ALIGN_CENTER)
-        font = wx.Font(40, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_ITALIC, wx.FONTWEIGHT_BOLD)
+        font = wx.Font(40, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_ITALIC, wx.FONTWEIGHT_BOLD, False, 'Arial')
         self.titleName.SetFont(font)
-
 
 
         # button_font = wx.Font(24, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_ITALIC, wx.FONTWEIGHT_BOLD)
@@ -153,8 +152,10 @@ class PanelTwo(wx.Panel):
         self.ScoreBox2 = wx.StaticText(self, label='Player 2 得分: %s' % '', pos=(600, 300)
                                       , size=(185, 25), style=wx.ALIGN_CENTER_VERTICAL)
 
-        self.CorrectOrNot = wx.StaticText(self, label='', pos=(300, 300)
-                                          , style=wx.ALIGN_CENTER_VERTICAL)
+        self.CorrectOrNot = wx.StaticText(self, label='', pos=(0, 400), size = (800, 250)
+                                          , style=wx.ALIGN_CENTER)
+        font = wx.Font(36, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_ITALIC, wx.FONTWEIGHT_BOLD, False, 'Arial')
+        self.CorrectOrNot.SetFont(font)
 
         pygame.mixer.init()
 
