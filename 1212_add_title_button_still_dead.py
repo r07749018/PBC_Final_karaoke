@@ -116,15 +116,15 @@ class PanelTwo(wx.Panel):
 
         wx.Panel.__init__(self, parent=parent)
         self.SetBackgroundColour(wx.Colour(251, 226, 81))
-        self.player_num = 1
+        self.player_num = 0
         self.count = -1
         self.score_1 = 0
         self.score_2 = 0
         # self.musicUrlList =[]
 
-        self.SongName = wx.StaticText(self, label="請在以下空白框輸入歌名", pos=(300, 100))
+        self.SongName = wx.StaticText(self, label="請在以下空白框輸入歌名", pos=(300, 125))
         self.GuessBox = wx.TextCtrl(self, pos=(300,150), size=(185, 25))
-        self.ShowInfoText = wx.StaticText(self, label='播放未開始', pos=(300, 125)
+        self.ShowInfoText = wx.StaticText(self, label='播放未開始', pos=(300, 100)
                                           , size=(185, 25), style=wx.ALIGN_CENTER_VERTICAL)
 
         self.isPaused = False  # 是否被暫停
@@ -139,25 +139,29 @@ class PanelTwo(wx.Panel):
         self.SubmitAnsButton = wx.Button(self, label='送出', pos=(300, 250))
         self.Bind(wx.EVT_BUTTON, self.CheckAns, self.SubmitAnsButton)
 
-        self.RestartButton = wx.Button(self, label='換人來', pos=(400, 250))
-        self.Bind(wx.EVT_BUTTON, self.RestartFunction, self.RestartButton)
+        # self.RestartButton = wx.Button(self, label='換人來', pos=(400, 250))
+        # self.Bind(wx.EVT_BUTTON, self.RestartFunction, self.RestartButton)
 
-        self.ChangePlaylistButton = wx.Button(self, label='回目錄', pos=(400, 300))
+        self.ChangePlaylistButton = wx.Button(self, label='回目錄', pos=(350, 300))
         self.ChangePlaylistButton.Bind(wx.EVT_BUTTON, parent.onSwitchPanels)
         # self.Bind(wx.EVT_BUTTON, parent.onSwitchPanels, self.ChangePlaylistButton)
 
-
-        self.ScoreBox1 = wx.StaticText(self, label='Player 1 得分: %s' % '', pos=(100, 300)
+        score_font = wx.Font(24, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, False, 'Arial')
+        self.ScoreBox1 = wx.StaticText(self, label='Player 1 得分: %s' % '', pos=(50, 300)
                                       , size=(185, 25), style=wx.ALIGN_CENTER_VERTICAL)
-        self.ScoreBox2 = wx.StaticText(self, label='Player 2 得分: %s' % '', pos=(600, 300)
+        self.ScoreBox2 = wx.StaticText(self, label='Player 2 得分: %s' % '', pos=(525, 300)
                                       , size=(185, 25), style=wx.ALIGN_CENTER_VERTICAL)
+        # self.ScoreBox1.SetForegroundColour((255, 0, 0))
+        self.ScoreBox1.SetFont(score_font)
+        self.ScoreBox2.SetFont(score_font)
 
-        self.CorrectOrNot = wx.StaticText(self, label='', pos=(0, 400), size = (800, 250)
+        self.CorrectOrNot = wx.StaticText(self, label='', pos=(0, 350), size = (800, 250)
                                           , style=wx.ALIGN_CENTER)
-        font = wx.Font(36, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_ITALIC, wx.FONTWEIGHT_BOLD, False, 'Arial')
-        self.CorrectOrNot.SetFont(font)
+        CON_font = wx.Font(36, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_ITALIC, wx.FONTWEIGHT_BOLD, False, 'Arial')
+        self.CorrectOrNot.SetFont(CON_font)
 
         pygame.mixer.init()
+
 
     def ResetCount(self):
         self.count = -1
@@ -166,27 +170,27 @@ class PanelTwo(wx.Panel):
     def OnStartClicked(self, event):
         self.isPaused = False
         self.PauseOrContinueButton.Enable(True)
-        self.ShowInfoText.SetLabel("現在是 '%s' player %d" % (song_cat[:-1], self.player_num))
-
+        self.ShowInfoText.SetLabel("播放 '%s'" % (song_cat[:-1]))
 
         if self.count == len(musicUrlList) - 1:
-            pygame.mixer.music.stop()
-            self.ShowInfoText.SetLabel("結束, 請重新選擇分類")
+            self.count = 0
+            # pygame.mixer.music.stop()
+            # self.ShowInfoText.SetLabel("結束, 請重新選擇分類")
         else:
             self.count += 1
 
-            self.willPlayMusic = file_path + song_cat + musicUrlList[self.count]
-            # self.willPlayMusic = random.choice(musicUrlList)
+        self.willPlayMusic = file_path + song_cat + musicUrlList[self.count]
+        # self.willPlayMusic = random.choice(musicUrlList)
 
-            pygame.mixer.music.load(self.willPlayMusic.encode())
-            pygame.mixer.music.play(1, random.randint(30, 180))
-            # pygame.mixer.music.fadeout(5000)
-            # time.sleep(5)
-            # pygame.mixer.music.stop()
+        pygame.mixer.music.load(self.willPlayMusic.encode())
+        pygame.mixer.music.play(1, random.randint(30, 180))
+        # pygame.mixer.music.fadeout(5000)
+        # time.sleep(5)
+        # pygame.mixer.music.stop()
 
-            # self.ShowInfoText.SetLabel("請猜猜歌名~~")
-            # self.ShowInfoText.SetLabel("當前播放:"+self.willPlayMusic)
-            self.CorrectOrNot.SetLabel('加油~~!')
+        # self.ShowInfoText.SetLabel("請猜猜歌名~~")
+        # self.ShowInfoText.SetLabel("當前播放:"+self.willPlayMusic)
+        self.CorrectOrNot.SetLabel('加油~~!')
 
     def OnPauseOrContinueClicked(self, event):
         if not self.isPaused:
@@ -205,6 +209,8 @@ class PanelTwo(wx.Panel):
     def CheckAns(self, event):
         ans = self.GuessBox.GetLineText(0) + '.mp3'
         self.GuessBox.Clear()
+  
+
         pygame.mixer.music.pause()
 
         if ans == musicUrlList[self.count]:
@@ -220,19 +226,20 @@ class PanelTwo(wx.Panel):
         self.ScoreBox2.SetLabel('Player 2 得分: %s' % self.score_2)
 
         if self.count == len(musicUrlList) - 1:
-            pygame.mixer.music.stop()
-            self.ShowInfoText.SetLabel("結束, 請重新選擇分類")
+            self.count = -1
+            # pygame.mixer.music.stop()
+            # self.ShowInfoText.SetLabel("結束, 請重新選擇分類")
         else:
             self.count += 1
 
-            self.willPlayMusic = file_path + song_cat + musicUrlList[self.count]
-            pygame.mixer.music.load(self.willPlayMusic.encode())
-            pygame.mixer.music.play(1, random.randint(30, 180))
+        self.willPlayMusic = file_path + song_cat + musicUrlList[self.count]
+        pygame.mixer.music.load(self.willPlayMusic.encode())
+        pygame.mixer.music.play(1, random.randint(30, 180))
         # pygame.mixer.music.fadeout(5000)
         # time.sleep(5)
         # pygame.mixer.music.stop()
 
-    def RestartFunction(self, event):
+    def ChangePlayer(self, player):
         # self.count = -1
         # self.score = 0
         self.GuessBox.Clear()
@@ -241,13 +248,19 @@ class PanelTwo(wx.Panel):
         self.ScoreBox2.SetLabel('Player 2 得分: %s' % self.score_2)
         self.CorrectOrNot.SetLabel('')
 
-        if self.player_num == 1:
+        if player == 1:
             self.player_num = 2
         else:
             self.player_num = 1
 
-        self.ShowInfoText.SetLabel("現在是 '%s' player %d" % (song_cat[:-1],self.player_num))
+        self.ShowInfoText.SetLabel("現在是 '%s' %d" % (song_cat[:-1], self.player_num))
 
+        if self.player_num == 1:
+            self.ScoreBox1.SetForegroundColour((255, 0, 0))
+            self.ScoreBox2.SetForegroundColour('black')
+        else:
+            self.ScoreBox2.SetForegroundColour((255, 0, 0))
+            self.ScoreBox1.SetForegroundColour('black')
 
 class MyMusicPlayer(wx.Frame):
 
@@ -280,6 +293,11 @@ class MyMusicPlayer(wx.Frame):
     #     self.panel_one.Hide()
     #     self.panel_two.Show()
     #     self.Layout()
+        MainPanel.Bind(wx.EVT_KEY_DOWN, self.OnKeyDown)
+        self.Bind(wx.EVT_KEY_DOWN, self.OnKeyDown)
+        self.Centre()
+        self.Show(True)
+
 
 
     def onSwitchPanels(self, event):
@@ -293,8 +311,18 @@ class MyMusicPlayer(wx.Frame):
             self.panel_one.Show()
             self.panel_two.Hide()
             pygame.mixer.music.stop()
-            PanelTwo.ResetCount(self.panel_two)
+            # PanelTwo.ResetCount(self.panel_two)
         self.Layout()
+
+    def OnKeyDown(self, event):
+        kc = event.GetKeyCode()
+        if kc == 316:
+            PanelTwo.ChangePlayer(self.panel_two, player=1)
+        elif kc == 396:
+            # self.player_num = 2
+            PanelTwo.ChangePlayer(self.panel_two, player=2)
+        print("KEY!")
+
 
 
 file_path = os.getcwd() + '/'
