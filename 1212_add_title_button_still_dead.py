@@ -122,9 +122,15 @@ class PanelTwo(wx.Panel):
         self.score_2 = 0
         # self.musicUrlList =[]
 
+<<<<<<< HEAD
         self.SongName = wx.StaticText(self, label="請在以下空白框輸入歌名", pos=(300, 125))
         self.GuessBox = wx.TextCtrl(self, pos=(300,150), size=(185, 25))
         self.ShowInfoText = wx.StaticText(self, label='播放未開始', pos=(300, 100)
+=======
+        self.SongName = wx.StaticText(self, label="請在以下空白框輸入歌名", pos=(325, 100))
+        self.GuessBox = wx.TextCtrl(self, pos=(300,150), size=(185, 25))
+        self.ShowInfoText = wx.StaticText(self, label='播放未開始', pos=(325, 125)
+>>>>>>> 517dafc65f98057bafc1c412eac5c4151cf62d30
                                           , size=(185, 25), style=wx.ALIGN_CENTER_VERTICAL)
 
         self.isPaused = False  # 是否被暫停
