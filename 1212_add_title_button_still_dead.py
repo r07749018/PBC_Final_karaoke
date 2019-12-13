@@ -127,6 +127,9 @@ class PanelTwo(wx.Panel):
         self.ShowInfoText = wx.StaticText(self, label='播放未開始', pos=(300, 100))
         self.SongName = wx.StaticText(self, label="請在以下空白框輸入歌名", pos=(300, 125))
         self.GuessBox = wx.TextCtrl(self, pos=(300,150), size=(185, 25))
+
+        # self.GuessBox.Bind(wx.EVT_CHAR, self.OnKeyDown)
+
         # self.ShowInfoText = wx.StaticText(self, label='播放未開始', pos=(325, 125)
         #                                   , size=(185, 25), style=wx.ALIGN_CENTER_VERTICAL)
 
@@ -164,6 +167,18 @@ class PanelTwo(wx.Panel):
         self.CorrectOrNot.SetFont(CON_font)
 
         pygame.mixer.init()
+
+    # def OnKeyDown(self, event):
+    #     kc = event.GetKeyCode()
+    #     # event.DoAllowNextEvent()
+    #     if kc == 316:
+    #         self.ChangePlayer(player=1)
+    #     elif kc == 396:
+    #         # self.player_num = 2
+    #         self.ChangePlayer(player=2)
+    #     print('key')
+    #     event.Skip()
+
 
 
     def ResetCount(self):
@@ -212,8 +227,6 @@ class PanelTwo(wx.Panel):
     def CheckAns(self, event):
         ans = self.GuessBox.GetLineText(0) + '.mp3'
         self.GuessBox.Clear()
-  
-
         pygame.mixer.music.pause()
 
         if ans == musicUrlList[self.count]:
@@ -296,8 +309,8 @@ class MyMusicPlayer(wx.Frame):
     #     self.panel_one.Hide()
     #     self.panel_two.Show()
     #     self.Layout()
+
         MainPanel.Bind(wx.EVT_KEY_DOWN, self.OnKeyDown)
-        self.Bind(wx.EVT_KEY_DOWN, self.OnKeyDown)
         self.Centre()
         self.Show(True)
 
@@ -319,11 +332,12 @@ class MyMusicPlayer(wx.Frame):
 
     def OnKeyDown(self, event):
         kc = event.GetKeyCode()
+        # event.DoAllowNextEvent()
         if kc == 316:
             PanelTwo.ChangePlayer(self.panel_two, player=1)
         elif kc == 396:
-            # self.player_num = 2
             PanelTwo.ChangePlayer(self.panel_two, player=2)
+
         print("KEY!")
 
 
