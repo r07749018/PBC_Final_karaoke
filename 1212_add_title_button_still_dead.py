@@ -19,50 +19,49 @@ class PanelOne(wx.Panel):
                                        size = (200, 250), style = wx.ALIGN_CENTER_VERTICAL)
         font = wx.Font(48, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_ITALIC, wx.FONTWEIGHT_BOLD)
         self.titleName.SetFont(font)
-        button_font = wx.Font(24, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_ITALIC, wx.FONTWEIGHT_BOLD)
-        self.CatButton1 =wx.Button(self, label="懷舊老歌", pos=(0, 100), size=(400, 300))
-        self.CatButton1.SetFont(button_font)
-        self.CatButton2 =wx.Button(self, label="聽嘻哈的小孩不會變壞", pos=(400, 100), size=(400, 300))
-        self.CatButton2.SetFont(button_font)
-        self.CatButton3 =wx.Button(self, label="小時候我都聽周杰倫", pos=(0, 400), size=(400, 300))
-        self.CatButton3.SetFont(button_font)
-        self.CatButton4 =wx.Button(self, label="KTV必點金曲", pos=(400, 400), size=(400, 300))
-        self.CatButton4.SetFont(button_font)
 
-        sizer = wx.BoxSizer(wx.VERTICAL)
-        sizer.Add(self.CatButton1, 0, 0, 0)
-        sizer.Add(self.CatButton3, 0, 0, 0)
-        # sizer.SetSizeHints(self)
-        self.SetSizer(sizer)
+
+        # button_font = wx.Font(24, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_ITALIC, wx.FONTWEIGHT_BOLD)
+        # self.CatButton1 =wx.Button(self, label="懷舊老歌", pos=(0, 100), size=(400, 300))
+        # self.CatButton1.SetFont(button_font)
+        # self.CatButton2 =wx.Button(self, label="聽嘻哈的小孩不會變壞", pos=(400, 100), size=(400, 300))
+        # self.CatButton2.SetFont(button_font)
+        # self.CatButton3 =wx.Button(self, label="小時候我都聽周杰倫", pos=(0, 400), size=(400, 300))
+        # self.CatButton3.SetFont(button_font)
+        # self.CatButton4 =wx.Button(self, label="KTV必點金曲", pos=(400, 400), size=(400, 300))
+        # self.CatButton4.SetFont(button_font)
+
+        # sizer = wx.BoxSizer(wx.VERTICAL)
+        # sizer.Add(self.CatButton1, 0, 0, 0)
+        # sizer.Add(self.CatButton3, 0, 0, 0)
+        # # sizer.SetSizeHints(self)
+        # self.SetSizer(sizer)
 
 
         # self.StartButton = wx.Button(self, label="準備好了!", pos=(300,300), size=(150,200))
         bmp_start = wx.Bitmap("karaoke.png", wx.BITMAP_TYPE_ANY)
-        self.StartButton = wx.BitmapButton(self, id=wx.ID_ANY, bitmap=bmp_start, pos=(300, 500), size=(400, 300))
 
-        self.Bind(wx.EVT_BUTTON, self.ClickCat1, self.CatButton1)
-
-        self.Bind(wx.EVT_BUTTON, self.ClickCat2, self.CatButton2)
-        self.Bind(wx.EVT_BUTTON, self.ClickCat3, self.CatButton3)
-        # self.CatButton3.Bind(wx.EVT_BUTTON, self.ClickCat3)
-        # self.CatButton3.Bind(wx.EVT_BUTTON, parent.onSwitchPanels)
-        self.Bind(wx.EVT_BUTTON, self.ClickCat4, self.CatButton4)
-
+        self.StartButton = wx.BitmapButton(self, id=wx.ID_ANY, bitmap=bmp_start, pos=(325, 595), size=(150, 120))
         self.Bind(wx.EVT_BUTTON, parent.onSwitchPanels, self.StartButton)
 
-        # bmp1 = wx.Bitmap("cate1.png-1.png", wx.BITMAP_TYPE_ANY)
-        # bmp2 = wx.Bitmap("cate1.png-2.png", wx.BITMAP_TYPE_ANY)
-        # bmp3 = wx.Bitmap("cate1.png-3.png", wx.BITMAP_TYPE_ANY)
-        # bmp4 = wx.Bitmap("cate1.png-4.png", wx.BITMAP_TYPE_ANY)
+        bmp1 = wx.Bitmap("cate1.png-1.png", wx.BITMAP_TYPE_ANY)
+        bmp2 = wx.Bitmap("cate1.png-2.png", wx.BITMAP_TYPE_ANY)
+        bmp3 = wx.Bitmap("cate1.png-3.png", wx.BITMAP_TYPE_ANY)
+        bmp4 = wx.Bitmap("cate1.png-4.png", wx.BITMAP_TYPE_ANY)
 
-        # self.CatButton1 = wx.BitmapButton(self, id=wx.ID_ANY, bitmap=bmp1, pos=(0, 100),size=(400,300))
+        self.CatButton1 = wx.BitmapButton(self, id=wx.ID_ANY, bitmap=bmp1, pos=(0, 100),size=(400,250))
         # self.Bind(wx.EVT_BUTTON, parent.onSwitchPanels, self.CatButton1)
-        # self.CatButton2 = wx.BitmapButton(self, id=wx.ID_ANY, bitmap=bmp2, pos=(400, 100),size=(400, 300))
+        self.CatButton2 = wx.BitmapButton(self, id=wx.ID_ANY, bitmap=bmp2, pos=(400, 100),size=(400, 250))
         # self.Bind(wx.EVT_BUTTON, parent.onSwitchPanels, self.CatButton2)
-        # self.CatButton3 = wx.BitmapButton(self, id=wx.ID_ANY, bitmap=bmp3, pos=(0, 400),size=(400, 300))
+        self.CatButton3 = wx.BitmapButton(self, id=wx.ID_ANY, bitmap=bmp3, pos=(0, 350),size=(400, 250))
         # self.Bind(wx.EVT_BUTTON, parent.onSwitchPanels, self.CatButton3)
-        # self.CatButton4 = wx.BitmapButton(self, id=wx.ID_ANY, bitmap=bmp4, pos=(400, 400),size=(400, 300))
+        self.CatButton4 = wx.BitmapButton(self, id=wx.ID_ANY, bitmap=bmp4, pos=(400, 350),size=(400, 250))
         # self.Bind(wx.EVT_BUTTON, parent.onSwitchPanels, self.CatButton4)
+
+        self.Bind(wx.EVT_BUTTON, self.ClickCat1, self.CatButton1)
+        self.Bind(wx.EVT_BUTTON, self.ClickCat2, self.CatButton2)
+        self.Bind(wx.EVT_BUTTON, self.ClickCat3, self.CatButton3)
+        self.Bind(wx.EVT_BUTTON, self.ClickCat4, self.CatButton4)
 
     def ClickCat(self, content):
         # PanelTwo.count = -1
@@ -72,7 +71,7 @@ class PanelOne(wx.Panel):
         # PanelTwo.CorrectOrNot.SetLabel('')
         music_list_reset()
         musicUrlLoader(content)
-        self.titleName.SetLabel(content)
+        # self.titleName.SetLabel(content)
 
         global song_cat
         song_cat = content + '/'
@@ -81,17 +80,23 @@ class PanelOne(wx.Panel):
         print(song_cat)
         print("press clickcat", musicUrlList)
 
+
     def ClickCat1(self, event):
-        self.ClickCat(self.CatButton1.GetLabel())
+        # self.ClickCat(self.CatButton1.GetLabel())
+        self.ClickCat("懷舊老歌")
 
     def ClickCat2(self, event):
-        self.ClickCat(self.CatButton2.GetLabel())
+        # self.ClickCat(self.CatButton2.GetLabel())
+        self.ClickCat("聽嘻哈的小孩不會變壞")
 
     def ClickCat3(self, event):
-        self.ClickCat(self.CatButton3.GetLabel())
+        # self.ClickCat(self.CatButton3.GetLabel())
+        self.ClickCat("小時候我都聽周杰倫")
 
-    def ClickCat4(self, event):
-        self.ClickCat(self.CatButton4.GetLabel())
+    def ClickCat4(self, event, parent):
+        # self.ClickCat(self.CatButton4.GetLabel())
+        self.ClickCat("KTV必點金曲")
+
 
     # def musicUrlLoader(self, cat):
     #
