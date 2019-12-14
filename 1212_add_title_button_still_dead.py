@@ -142,7 +142,7 @@ class PanelTwo(wx.Panel):
         self.Bind(wx.EVT_BUTTON, self.OnPauseOrContinueClicked, self.PauseOrContinueButton)
         self.PauseOrContinueButton.Enable(False)
 
-        self.SubmitAnsButton = wx.Button(self, label='送出', pos=(300, 250))
+        self.SubmitAnsButton = wx.Button(self, label='送出', pos=(350, 250))
         self.Bind(wx.EVT_BUTTON, self.CheckAns, self.SubmitAnsButton)
 
         # self.RestartButton = wx.Button(self, label='換人來', pos=(400, 250))
