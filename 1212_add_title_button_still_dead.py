@@ -120,6 +120,7 @@ class PanelTwo(wx.Panel):
 
         self.GuessBox = wx.TextCtrl(self, pos=(300,200), size=(185, 25), value='')
         self.GuessBox.Bind(wx.EVT_KEY_DOWN, parent.OnKeyDown)
+        self.Bind(wx.EVT_KEY_DOWN, parent.OnKeyDown)
 
         self.SubmitAnsButton = wx.Button(self, label='送出', pos=(350, 250))
         self.Bind(wx.EVT_BUTTON, self.CheckAns, self.SubmitAnsButton)
@@ -286,9 +287,9 @@ class MyMusicPlayer(wx.Frame):
         self.sizer.Add(self.panel_two, 1, wx.EXPAND)
         self.SetSizer(self.sizer)
 
-        # MainPanel.Bind(wx.EVT_KEY_DOWN, self.OnKeyDown)
-        # self.Centre()
-        # self.Show(True)
+        MainPanel.Bind(wx.EVT_KEY_DOWN, self.OnKeyDown)
+        self.Centre()
+        self.Show(True)
 
     def onSwitchPanels(self, event):
         if self.panel_one.IsShown():
