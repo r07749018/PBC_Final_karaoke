@@ -215,9 +215,13 @@ class PanelTwo(wx.Panel):
         if ans == musicUrlList[self.count]:
             if self.player_num == 1:
                 self.score_1 += 1
-            else:
+                self.CorrectOrNot.SetLabel('恭喜正確!')
+            elif self.player_num == 2:
                 self.score_2 += 1
-            self.CorrectOrNot.SetLabel('恭喜正確!')
+                self.CorrectOrNot.SetLabel('恭喜正確!')
+            else:
+                self.CorrectOrNot.SetLabel('沒人搶答!')
+
         else:
             self.CorrectOrNot.SetLabel('答錯了QQ')
 
