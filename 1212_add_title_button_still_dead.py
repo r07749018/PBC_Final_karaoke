@@ -107,24 +107,25 @@ class PanelTwo(wx.Panel):
         self.score_2 = 0
 
         self.ShowInfoText = wx.StaticText(self, label='播放未開始', pos=(300, 100))
-        self.SongName = wx.StaticText(self, label="請在以下空白框輸入歌名", pos=(300, 125))
-        self.GuessBox = wx.TextCtrl(self, pos=(300,150), size=(185, 25), value='')
-        self.GuessBox.Bind(wx.EVT_KEY_DOWN, parent.OnKeyDown)
-
 
         self.isPaused = False  # 是否被暫停
-        self.StartPlayButton = wx.Button(self, label='開始/下一首', pos=(300, 200))
+        self.StartPlayButton = wx.Button(self, label='開始/下一首', pos=(300, 125))
         self.Bind(wx.EVT_BUTTON, self.OnStartClicked, self.StartPlayButton)
 
-        self.PauseOrContinueButton = wx.Button(self, label='停止/繼續', pos=(400, 200))
+        self.PauseOrContinueButton = wx.Button(self, label='停止/繼續', pos=(400, 125))
         self.Bind(wx.EVT_BUTTON, self.OnPauseOrContinueClicked, self.PauseOrContinueButton)
         self.PauseOrContinueButton.Enable(False)
+
+        self.SongName = wx.StaticText(self, label="請在以下空白框輸入歌名", pos=(300, 175))
+
+        self.GuessBox = wx.TextCtrl(self, pos=(300,200), size=(185, 25), value='')
+        self.GuessBox.Bind(wx.EVT_KEY_DOWN, parent.OnKeyDown)
 
         self.SubmitAnsButton = wx.Button(self, label='送出', pos=(350, 250))
         self.Bind(wx.EVT_BUTTON, self.CheckAns, self.SubmitAnsButton)
 
-        # self.RestartButton = wx.Button(self, label='換人來', pos=(400, 250))
-        # self.Bind(wx.EVT_BUTTON, self.RestartFunction, self.RestartButton)
+        self.RestartButton = wx.Button(self, label='重來', pos=(350, 350))
+        self.Bind(wx.EVT_BUTTON, self.ResetCount, self.RestartButton)
 
         self.ChangePlaylistButton = wx.Button(self, label='回目錄', pos=(350, 300))
         self.ChangePlaylistButton.Bind(wx.EVT_BUTTON, parent.onSwitchPanels)
@@ -138,7 +139,7 @@ class PanelTwo(wx.Panel):
         self.ScoreBox1.SetFont(score_font)
         self.ScoreBox2.SetFont(score_font)
 
-        self.CorrectOrNot = wx.StaticText(self, label='', pos=(0, 350), size = (800, 250)
+        self.CorrectOrNot = wx.StaticText(self, label='', pos=(0, 400), size = (800, 250)
                                           , style=wx.ALIGN_CENTER)
         CON_font = wx.Font(36, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_ITALIC, wx.FONTWEIGHT_BOLD, False, 'Arial')
         self.CorrectOrNot.SetFont(CON_font)
@@ -159,8 +160,13 @@ class PanelTwo(wx.Panel):
     def SetInfoText(self):
         self.ShowInfoText.SetLabel("點一下開始播放 '%s'" % (song_cat[:-1]))
 
-    def ResetCount(self):
+    def ResetCount(self, event):
         self.count = -1
+        self.score_1 = 0
+        self.score_2 = 0
+        self.ScoreBox1.SetLabel('Player 1 得分: %s' % self.score_1)
+        self.ScoreBox2.SetLabel('Player 2 得分: %s' % self.score_2)
+        self.CorrectOrNot.SetLabel('')
 
     def OnStartClicked(self, event):
         self.isPaused = False
@@ -292,7 +298,7 @@ class MyMusicPlayer(wx.Frame):
             self.panel_one.Show()
             self.panel_two.Hide()
             pygame.mixer.music.stop()
-            # PanelTwo.ResetCount(self.panel_two)
+
         self.Layout()
 
     def OnKeyDown(self, event):
