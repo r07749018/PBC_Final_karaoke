@@ -108,8 +108,9 @@ class PanelTwo(wx.Panel):
 
         self.ShowInfoText = wx.StaticText(self, label='播放未開始', pos=(300, 100))
         self.SongName = wx.StaticText(self, label="請在以下空白框輸入歌名", pos=(300, 125))
-        self.GuessBox = wx.TextCtrl(self, pos=(300,150), size=(185, 25))
+        self.GuessBox = wx.TextCtrl(self, pos=(300,150), size=(185, 25), value='')
         self.GuessBox.Bind(wx.EVT_KEY_DOWN, parent.OnKeyDown)
+
 
         self.isPaused = False  # 是否被暫停
         self.StartPlayButton = wx.Button(self, label='開始/下一首', pos=(300, 200))
@@ -183,6 +184,11 @@ class PanelTwo(wx.Panel):
 
         self.CorrectOrNot.SetLabel('加油~~!')
 
+        self.player_num = 0
+        self.ScoreBox1.SetForegroundColour('black')
+        self.ScoreBox2.SetForegroundColour('black')
+
+
     def OnPauseOrContinueClicked(self, event):
         if not self.isPaused:
             self.isPaused = True
@@ -226,6 +232,10 @@ class PanelTwo(wx.Panel):
         self.ShowInfoText.SetLabel("播放 '%s'" % (song_cat[:-1]))
         # pygame.mixer.music.fadeout(5000)
         # time.sleep(5)
+
+        self.player_num = 0
+        self.ScoreBox1.SetForegroundColour('black')
+        self.ScoreBox2.SetForegroundColour('black')
 
     def ChangePlayer(self, player):
         # self.count = -1
