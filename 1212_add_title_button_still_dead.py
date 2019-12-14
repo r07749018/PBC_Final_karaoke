@@ -156,7 +156,7 @@ class PanelTwo(wx.Panel):
     #     event.Skip()
 
     def SetInfoText(self):
-        self.ShowInfoText.SetLabel("播放 '%s'" % (song_cat[:-1]))
+        self.ShowInfoText.SetLabel("點一下開始播放 '%s'" % (song_cat[:-1]))
 
     def ResetCount(self):
         self.count = -1
@@ -274,6 +274,7 @@ class MyMusicPlayer(wx.Frame):
             self.SetTitle("PCB KTV")
             self.panel_one.Hide()
             self.panel_two.Show()
+            PanelTwo.SetInfoText(self.panel_two)
 
         else:
             self.SetTitle("PCB KTV")
