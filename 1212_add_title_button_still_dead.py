@@ -219,7 +219,7 @@ class PanelTwo(wx.Panel):
         self.ScoreBox2.SetLabel('Player 2 得分: %s' % self.score_2)
 
         if self.count == len(musicUrlList) - 1:
-            self.count = -1
+            self.count = 0
             # pygame.mixer.music.stop()
             # self.ShowInfoText.SetLabel("結束, 請重新選擇分類")
         else:
@@ -230,6 +230,7 @@ class PanelTwo(wx.Panel):
         pygame.mixer.music.play(1, random.randint(30, 180))
         self.isPaused = False
         self.ShowInfoText.SetLabel("播放 '%s'" % (song_cat[:-1]))
+
         # pygame.mixer.music.fadeout(5000)
         # time.sleep(5)
 
