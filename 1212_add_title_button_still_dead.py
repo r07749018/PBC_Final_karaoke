@@ -102,7 +102,8 @@ class PanelTwo(wx.Panel):
         wx.Panel.__init__(self, parent=parent)
         self.SetBackgroundColour(wx.Colour(251, 226, 81))
         self.player_num = 0
-        self.count = -1
+        # self.count = -1
+
         self.score_1 = 0
         self.score_2 = 0
 
@@ -132,9 +133,9 @@ class PanelTwo(wx.Panel):
         self.ChangePlaylistButton.Bind(wx.EVT_BUTTON, parent.onSwitchPanels)
 
         score_font = wx.Font(24, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, False, 'Arial')
-        self.ScoreBox1 = wx.StaticText(self, label='Player 1 得分: %s' % '', pos=(50, 300)
+        self.ScoreBox1 = wx.StaticText(self, label='Player 1 得分: %s' % '0', pos=(50, 300)
                                       , size=(185, 25), style=wx.ALIGN_CENTER_VERTICAL)
-        self.ScoreBox2 = wx.StaticText(self, label='Player 2 得分: %s' % '', pos=(525, 300)
+        self.ScoreBox2 = wx.StaticText(self, label='Player 2 得分: %s' % '0', pos=(525, 300)
                                       , size=(185, 25), style=wx.ALIGN_CENTER_VERTICAL)
         # self.ScoreBox1.SetForegroundColour((255, 0, 0))
         self.ScoreBox1.SetFont(score_font)
@@ -157,12 +158,14 @@ class PanelTwo(wx.Panel):
     #         self.ChangePlayer(player=2)
     #     print('key')
     #     event.Skip()
+    def SetStartSong(self):
+        self.count = random.choice(range(len(musicUrlList)))
 
     def SetInfoText(self):
         self.ShowInfoText.SetLabel("點一下開始播放 '%s'" % (song_cat[:-1]))
 
     def ResetCount(self, event):
-        self.count = -1
+        # self.count = -1
         self.score_1 = 0
         self.score_2 = 0
         self.ScoreBox1.SetLabel('Player 1 得分: %s' % self.score_1)
@@ -182,7 +185,7 @@ class PanelTwo(wx.Panel):
             self.count += 1
 
         self.willPlayMusic = file_path + song_cat + musicUrlList[self.count]
-        # self.willPlayMusic = random.choice(musicUrlList)
+        # self.willPlayMusic = file_path + song_cat + random.choice(musicUrlList)
 
         pygame.mixer.music.load(self.willPlayMusic.encode())
         pygame.mixer.music.play(1, random.randint(30, 180))
@@ -300,6 +303,7 @@ class MyMusicPlayer(wx.Frame):
             self.panel_one.Hide()
             self.panel_two.Show()
             PanelTwo.SetInfoText(self.panel_two)
+            PanelTwo.SetStartSong(self.panel_two)
 
         else:
             self.SetTitle("PCB KTV")
