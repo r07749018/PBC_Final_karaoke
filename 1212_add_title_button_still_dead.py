@@ -109,7 +109,7 @@ class PanelTwo(wx.Panel):
         self.ShowInfoText = wx.StaticText(self, label='播放未開始', pos=(300, 100))
         self.SongName = wx.StaticText(self, label="請在以下空白框輸入歌名", pos=(300, 125))
         self.GuessBox = wx.TextCtrl(self, pos=(300,150), size=(185, 25))
-        # self.GuessBox.Bind(wx.EVT_CHAR, self.OnKeyDown)
+        self.GuessBox.Bind(wx.EVT_KEY_DOWN, parent.OnKeyDown)
 
         self.isPaused = False  # 是否被暫停
         self.StartPlayButton = wx.Button(self, label='開始/下一首', pos=(300, 200))
@@ -265,9 +265,9 @@ class MyMusicPlayer(wx.Frame):
         self.sizer.Add(self.panel_two, 1, wx.EXPAND)
         self.SetSizer(self.sizer)
 
-        MainPanel.Bind(wx.EVT_KEY_DOWN, self.OnKeyDown)
-        self.Centre()
-        self.Show(True)
+        # MainPanel.Bind(wx.EVT_KEY_DOWN, self.OnKeyDown)
+        # self.Centre()
+        # self.Show(True)
 
     def onSwitchPanels(self, event):
         if self.panel_one.IsShown():
@@ -287,12 +287,15 @@ class MyMusicPlayer(wx.Frame):
     def OnKeyDown(self, event):
         kc = event.GetKeyCode()
         # event.DoAllowNextEvent()
+
         if kc == 316:
             PanelTwo.ChangePlayer(self.panel_two, player=1)
         elif kc == 396:
             PanelTwo.ChangePlayer(self.panel_two, player=2)
+            print("changed!")
 
-        print("KEY!")
+        event.Skip()
+
 
 file_path = os.getcwd() + '/'
 musicUrlList = []
