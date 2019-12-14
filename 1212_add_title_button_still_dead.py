@@ -224,23 +224,26 @@ class PanelTwo(wx.Panel):
                 self.CorrectOrNot.SetLabel('沒人搶答!')
 
         else:
-            self.CorrectOrNot.SetLabel('答錯了QQ')
+            if self.player_num == 0:
+                self.CorrectOrNot.SetLabel('沒人搶答!')
+            else:
+                self.CorrectOrNot.SetLabel('答錯了QQ')
 
         self.ScoreBox1.SetLabel('Player 1 得分: %s' % self.score_1)
         self.ScoreBox2.SetLabel('Player 2 得分: %s' % self.score_2)
 
-        if self.count == len(musicUrlList) - 1:
-            self.count = 0
-            # pygame.mixer.music.stop()
-            # self.ShowInfoText.SetLabel("結束, 請重新選擇分類")
-        else:
-            self.count += 1
-
-        self.willPlayMusic = file_path + song_cat + musicUrlList[self.count]
-        pygame.mixer.music.load(self.willPlayMusic.encode())
-        pygame.mixer.music.play(1, random.randint(30, 180))
-        self.isPaused = False
-        self.ShowInfoText.SetLabel("播放 '%s'" % (song_cat[:-1]))
+        # if self.count == len(musicUrlList) - 1:
+        #     self.count = 0
+        #     # pygame.mixer.music.stop()
+        #     # self.ShowInfoText.SetLabel("結束, 請重新選擇分類")
+        # else:
+        #     self.count += 1
+        #
+        # self.willPlayMusic = file_path + song_cat + musicUrlList[self.count]
+        # pygame.mixer.music.load(self.willPlayMusic.encode())
+        # pygame.mixer.music.play(1, random.randint(30, 180))
+        # self.isPaused = False
+        # self.ShowInfoText.SetLabel("播放 '%s'" % (song_cat[:-1]))
 
         # pygame.mixer.music.fadeout(5000)
         # time.sleep(5)
@@ -268,7 +271,7 @@ class PanelTwo(wx.Panel):
             self.ScoreBox1.SetForegroundColour((255, 0, 0))
             self.ScoreBox2.SetForegroundColour('black')
 
-        self.ShowInfoText.SetLabel("現在是 '%s' %d" % (song_cat[:-1], self.player_num))
+        self.ShowInfoText.SetLabel("點一下開始播放 '%s'" % (song_cat[:-1]))
 
 class MyMusicPlayer(wx.Frame):
 
@@ -314,8 +317,6 @@ class MyMusicPlayer(wx.Frame):
             PanelTwo.ChangePlayer(self.panel_two, player=1)
         elif kc == 396:
             PanelTwo.ChangePlayer(self.panel_two, player=2)
-            print("changed!")
-
         event.Skip()
 
 
