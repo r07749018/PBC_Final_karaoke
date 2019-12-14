@@ -20,7 +20,6 @@ class PanelOne(wx.Panel):
         font = wx.Font(40, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_ITALIC, wx.FONTWEIGHT_BOLD, False, 'Arial')
         self.titleName.SetFont(font)
 
-
         # button_font = wx.Font(24, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_ITALIC, wx.FONTWEIGHT_BOLD)
         # self.CatButton1 =wx.Button(self, label="懷舊老歌", pos=(0, 100), size=(400, 300))
         # self.CatButton1.SetFont(button_font)
@@ -36,7 +35,6 @@ class PanelOne(wx.Panel):
         # sizer.Add(self.CatButton3, 0, 0, 0)
         # # sizer.SetSizeHints(self)
         # self.SetSizer(sizer)
-
 
         # self.StartButton = wx.Button(self, label="準備好了!", pos=(300,300), size=(150,200))
         bmp_start = wx.Bitmap("karaoke.png", wx.BITMAP_TYPE_ANY)
@@ -64,42 +62,29 @@ class PanelOne(wx.Panel):
         # self.Bind(wx.EVT_BUTTON, parent.onSwitchPanels, self.CatButton3)
         # self.Bind(wx.EVT_BUTTON, parent.onSwitchPanels, self.CatButton4)
 
-
     def ClickCat(self, content):
-        # PanelTwo.count = -1
-        # print(PanelTwo.score)
-        # musicUrlList = []
-        # PanelTwo.ScoreBox1.SetLabel('得分: %s' % PanelTwo.score)
-        # PanelTwo.CorrectOrNot.SetLabel('')
+
         music_list_reset()
         musicUrlLoader(content)
         self.titleName.SetLabel("已選擇 %s" % content)
 
-
         global song_cat
         song_cat = content + '/'
-        # self.ShowInfoText.SetLabel("播放%s流行音樂" % content)
 
         print(song_cat)
         print("press clickcat", musicUrlList)
 
-
     def ClickCat1(self, event):
-        # self.ClickCat(self.CatButton1.GetLabel())
         self.ClickCat("懷舊老歌")
 
     def ClickCat2(self, event):
-        # self.ClickCat(self.CatButton2.GetLabel())
         self.ClickCat("聽嘻哈的小孩不會變壞")
 
     def ClickCat3(self, event):
-        # self.ClickCat(self.CatButton3.GetLabel())
         self.ClickCat("小時候我都聽周杰倫")
 
     def ClickCat4(self, event):
-        # self.ClickCat(self.CatButton4.GetLabel())
         self.ClickCat("KTV必點金曲")
-
 
     # def musicUrlLoader(self, cat):
     #
@@ -120,23 +105,15 @@ class PanelTwo(wx.Panel):
         self.count = -1
         self.score_1 = 0
         self.score_2 = 0
-        # self.musicUrlList =[]
 
-        # self.SongName = wx.StaticText(self, label="請在以下空白框輸入歌名", pos=(300, 125))
-        # self.GuessBox = wx.TextCtrl(self, pos=(300,150), size=(185, 25))
         self.ShowInfoText = wx.StaticText(self, label='播放未開始', pos=(300, 100))
         self.SongName = wx.StaticText(self, label="請在以下空白框輸入歌名", pos=(300, 125))
         self.GuessBox = wx.TextCtrl(self, pos=(300,150), size=(185, 25))
-
         # self.GuessBox.Bind(wx.EVT_CHAR, self.OnKeyDown)
-
-        # self.ShowInfoText = wx.StaticText(self, label='播放未開始', pos=(325, 125)
-        #                                   , size=(185, 25), style=wx.ALIGN_CENTER_VERTICAL)
 
         self.isPaused = False  # 是否被暫停
         self.StartPlayButton = wx.Button(self, label='開始/下一首', pos=(300, 200))
         self.Bind(wx.EVT_BUTTON, self.OnStartClicked, self.StartPlayButton)
-        # self.StartPlayButton.SetBackgroundColour(wx.Colour(270, 240, 240))
 
         self.PauseOrContinueButton = wx.Button(self, label='停止/繼續', pos=(400, 200))
         self.Bind(wx.EVT_BUTTON, self.OnPauseOrContinueClicked, self.PauseOrContinueButton)
@@ -150,7 +127,6 @@ class PanelTwo(wx.Panel):
 
         self.ChangePlaylistButton = wx.Button(self, label='回目錄', pos=(350, 300))
         self.ChangePlaylistButton.Bind(wx.EVT_BUTTON, parent.onSwitchPanels)
-        # self.Bind(wx.EVT_BUTTON, parent.onSwitchPanels, self.ChangePlaylistButton)
 
         score_font = wx.Font(24, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, False, 'Arial')
         self.ScoreBox1 = wx.StaticText(self, label='Player 1 得分: %s' % '', pos=(50, 300)
@@ -179,11 +155,11 @@ class PanelTwo(wx.Panel):
     #     print('key')
     #     event.Skip()
 
-
+    def SetInfoText(self):
+        self.ShowInfoText.SetLabel("播放 '%s'" % (song_cat[:-1]))
 
     def ResetCount(self):
         self.count = -1
-
 
     def OnStartClicked(self, event):
         self.isPaused = False
@@ -204,10 +180,7 @@ class PanelTwo(wx.Panel):
         pygame.mixer.music.play(1, random.randint(30, 180))
         # pygame.mixer.music.fadeout(5000)
         # time.sleep(5)
-        # pygame.mixer.music.stop()
 
-        # self.ShowInfoText.SetLabel("請猜猜歌名~~")
-        # self.ShowInfoText.SetLabel("當前播放:"+self.willPlayMusic)
         self.CorrectOrNot.SetLabel('加油~~!')
 
     def OnPauseOrContinueClicked(self, event):
@@ -215,19 +188,17 @@ class PanelTwo(wx.Panel):
             self.isPaused = True
             pygame.mixer.music.pause()
             self.PauseOrContinueButton.SetLabel('停止/繼續')
-        # self.ShowInfoText.SetLabel('播放已暫停')
+            self.ShowInfoText.SetLabel('播放已暫停')
         else:
             self.isPaused = False
             pygame.mixer.music.unpause()
             self.PauseOrContinueButton.SetLabel('停止/繼續')
+            self.ShowInfoText.SetLabel("播放 '%s'" % (song_cat[:-1]))
 
-        # self.ShowInfoText.SetLabel("請猜猜歌名~~")
-        # self.ShowInfoText.SetLabel("當前播放:" + self.willPlayMusic)
 
     def CheckAns(self, event):
         ans = self.GuessBox.GetLineText(0) + '.mp3'
         self.GuessBox.Clear()
-        pygame.mixer.music.pause()
 
         if ans == musicUrlList[self.count]:
             if self.player_num == 1:
@@ -251,32 +222,31 @@ class PanelTwo(wx.Panel):
         self.willPlayMusic = file_path + song_cat + musicUrlList[self.count]
         pygame.mixer.music.load(self.willPlayMusic.encode())
         pygame.mixer.music.play(1, random.randint(30, 180))
+        self.isPaused = False
+        self.ShowInfoText.SetLabel("播放 '%s'" % (song_cat[:-1]))
         # pygame.mixer.music.fadeout(5000)
         # time.sleep(5)
-        # pygame.mixer.music.stop()
 
     def ChangePlayer(self, player):
         # self.count = -1
         # self.score = 0
         self.GuessBox.Clear()
         pygame.mixer.music.pause()
+        self.isPaused = True
         self.ScoreBox1.SetLabel('Player 1 得分: %s' % self.score_1)
         self.ScoreBox2.SetLabel('Player 2 得分: %s' % self.score_2)
         self.CorrectOrNot.SetLabel('')
 
         if player == 1:
             self.player_num = 2
-        else:
-            self.player_num = 1
-
-        self.ShowInfoText.SetLabel("現在是 '%s' %d" % (song_cat[:-1], self.player_num))
-
-        if self.player_num == 1:
-            self.ScoreBox1.SetForegroundColour((255, 0, 0))
-            self.ScoreBox2.SetForegroundColour('black')
-        else:
             self.ScoreBox2.SetForegroundColour((255, 0, 0))
             self.ScoreBox1.SetForegroundColour('black')
+        else:
+            self.player_num = 1
+            self.ScoreBox1.SetForegroundColour((255, 0, 0))
+            self.ScoreBox2.SetForegroundColour('black')
+
+        self.ShowInfoText.SetLabel("現在是 '%s' %d" % (song_cat[:-1], self.player_num))
 
 class MyMusicPlayer(wx.Frame):
 
@@ -295,26 +265,9 @@ class MyMusicPlayer(wx.Frame):
         self.sizer.Add(self.panel_two, 1, wx.EXPAND)
         self.SetSizer(self.sizer)
 
-    # def SwitchtoPanelOne(self, event):
-    #
-    #     self.SetTitle("PCB KTV")
-    #     self.panel_one.Show()
-    #     self.panel_two.Hide()
-    #     self.Layout()
-    #     pygame.mixer.music.stop()
-    #
-    # def SwitchtoPanelTwo(self, event):
-    #
-    #     self.SetTitle("PCB KTV")
-    #     self.panel_one.Hide()
-    #     self.panel_two.Show()
-    #     self.Layout()
-
         MainPanel.Bind(wx.EVT_KEY_DOWN, self.OnKeyDown)
         self.Centre()
         self.Show(True)
-
-
 
     def onSwitchPanels(self, event):
         if self.panel_one.IsShown():
@@ -339,8 +292,6 @@ class MyMusicPlayer(wx.Frame):
             PanelTwo.ChangePlayer(self.panel_two, player=2)
 
         print("KEY!")
-
-
 
 file_path = os.getcwd() + '/'
 musicUrlList = []
