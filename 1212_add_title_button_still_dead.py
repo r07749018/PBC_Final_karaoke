@@ -74,7 +74,6 @@ class PanelTwo(wx.Panel):
         self.SetBackgroundColour(wx.Colour(251, 226, 81))
         self.player_num = 0
         self.answerable = False
-        self.correct = False
         # self.count = -1
 
         self.score_1 = 0
@@ -102,6 +101,7 @@ class PanelTwo(wx.Panel):
 
         self.SubmitAnsButton = wx.Button(self, label='送出', pos=(350, 250))
         self.Bind(wx.EVT_BUTTON, self.CheckAns, self.SubmitAnsButton)
+        self.SubmitAnsButton.Enable(False)
 
         self.RestartButton = wx.Button(self, label='重來', pos=(350, 350))
         self.Bind(wx.EVT_BUTTON, self.ResetCount, self.RestartButton)
@@ -123,6 +123,8 @@ class PanelTwo(wx.Panel):
         CON_font = wx.Font(36, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_ITALIC, wx.FONTWEIGHT_BOLD, False, 'Arial')
         self.CorrectOrNot.SetFont(CON_font)
 
+        # self.bitmap = wx.StaticBitmap(self, -1, size=(0, 0))
+
         pygame.mixer.init()
 
 
@@ -140,6 +142,14 @@ class PanelTwo(wx.Panel):
         self.count = random.choice(seq)
         print(self.count)
 
+        self.player_num = 0
+        self.ScoreBox1.SetForegroundColour('black')
+        self.ScoreBox2.SetForegroundColour('black')
+        self.CorrectOrNot.SetLabel('')
+        self.SubmitAnsButton.Enable(False)
+
+
+        self.CanAnswer()
 
     def SetInfoText(self):
         self.ShowInfoText.SetLabel("點一下開始播放 '%s'" % (song_cat[:-1]))
@@ -151,6 +161,8 @@ class PanelTwo(wx.Panel):
         self.ScoreBox1.SetLabel('Player 1 得分: %s' % self.score_1)
         self.ScoreBox2.SetLabel('Player 2 得分: %s' % self.score_2)
         self.CorrectOrNot.SetLabel('')
+        self.StartPlayButton.Enable(True)
+        self.ChangePlaylistButton.Enable(True)
 
         self.player_num = 0
         self.ScoreBox1.SetForegroundColour('black')
@@ -160,6 +172,7 @@ class PanelTwo(wx.Panel):
     def OnStartClicked(self, event):
         self.isPaused = False
         self.PauseOrContinueButton.Enable(True)
+        self.SubmitAnsButton.Enable(True)
         self.ShowInfoText.SetLabel("播放 '%s'" % (song_cat[:-1]))
 
         if self.count == len(musicUrlList) - 1:
@@ -199,7 +212,7 @@ class PanelTwo(wx.Panel):
         self.GuessBox.Clear()
 
         if ans == musicUrlList[self.count]:
-            self.correct = True
+            self.CannotAnswer()
             if self.player_num == 1:
                 self.score_1 += 1
                 self.CorrectOrNot.SetLabel('恭喜正確!')
@@ -210,7 +223,7 @@ class PanelTwo(wx.Panel):
                 self.CorrectOrNot.SetLabel('沒人搶答!')
 
         else:
-            self.correct  = False
+            self.CanAnswer()
             if self.player_num == 0:
                 self.CorrectOrNot.SetLabel('沒人搶答!')
             else:
@@ -223,11 +236,21 @@ class PanelTwo(wx.Panel):
         self.ScoreBox1.SetForegroundColour('black')
         self.ScoreBox2.SetForegroundColour('black')
 
-        if self.correct:
-            self.CannotAnswer()
-        else:
-            self.CanAnswer()
+        if self.score_1 == 5:
+            self.CorrectOrNot.SetLabel('WINNER: Player 1')
+            self.WinnerBorn()
 
+        elif self.score_2 == 5:
+            self.CorrectOrNot.SetLabel('WINNER Player 2')
+            self.WinnerBorn()
+
+    def WinnerBorn(self):
+        self.StartPlayButton.Enable(False)
+        self.PauseOrContinueButton.Enable(False)
+        self.SubmitAnsButton.Enable(False)
+        self.ChangePlaylistButton.Enable(False)
+        final_pic = wx.Bitmap("Final_pic.png", wx.BITMAP_TYPE_ANY)
+        self.bitmap = wx.StaticBitmap(self, -1, final_pic, pos=(225, 450), size=(400, 250))
 
     def ChangePlayer(self, player):
         # self.count = -1
@@ -301,16 +324,12 @@ class MyMusicPlayer(wx.Frame):
             elif kc == 396:
                 PanelTwo.ChangePlayer(self.panel_two, player=2)
                 PanelTwo.CannotAnswer(self.panel_two)
+
         else:
             if kc == 13:
                 PanelTwo.CheckAns(self.panel_two, event=PanelTwo.GetEventHandler(self.panel_two))
 
         event.Skip()
-
-    # def EnterPressed(self, event):
-    #     kc = event.GetKeyCode()
-    #     if kc == 13:
-    #         PanelTwo.CheckAns(self.panel_two)
 
 
 file_path = os.getcwd() + '/'
