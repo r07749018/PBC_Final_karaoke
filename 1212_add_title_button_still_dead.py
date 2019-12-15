@@ -71,6 +71,8 @@ class PanelTwo(wx.Panel):
         wx.Panel.__init__(self, parent=parent)
         self.SetBackgroundColour(wx.Colour(251, 226, 81))
         self.player_num = 0
+        self.answerable = False
+        self.correct = False
         # self.count = -1
 
         self.score_1 = 0
@@ -117,6 +119,15 @@ class PanelTwo(wx.Panel):
 
         pygame.mixer.init()
 
+    def GetAnswerStatus(self):
+        return self.answerable
+
+    def CanAnswer(self):
+        self.answerable = True
+
+    def CannotAnswer(self):
+        self.answerable = False
+
     def SetStartSong(self):
         seq = range(len(musicUrlList))
         self.count = random.choice(seq)
@@ -145,15 +156,17 @@ class PanelTwo(wx.Panel):
             self.count += 1
 
         self.willPlayMusic = file_path + song_cat + musicUrlList[self.count]
+        print(musicUrlList[self.count])
 
         pygame.mixer.music.load(self.willPlayMusic.encode())
         pygame.mixer.music.play(1, random.randint(30, 180))
 
-        self.CorrectOrNot.SetLabel('加油~~!')
+        self.CorrectOrNot.SetLabel('請搶答~! 加油~~!')
 
         self.player_num = 0
         self.ScoreBox1.SetForegroundColour('black')
         self.ScoreBox2.SetForegroundColour('black')
+        self.CanAnswer()
 
 
     def OnPauseOrContinueClicked(self, event):
@@ -174,6 +187,7 @@ class PanelTwo(wx.Panel):
         self.GuessBox.Clear()
 
         if ans == musicUrlList[self.count]:
+            self.correct = True
             if self.player_num == 1:
                 self.score_1 += 1
                 self.CorrectOrNot.SetLabel('恭喜正確!')
@@ -184,10 +198,11 @@ class PanelTwo(wx.Panel):
                 self.CorrectOrNot.SetLabel('沒人搶答!')
 
         else:
+            self.correct  = False
             if self.player_num == 0:
                 self.CorrectOrNot.SetLabel('沒人搶答!')
             else:
-                self.CorrectOrNot.SetLabel('答錯了QQ')
+                self.CorrectOrNot.SetLabel('答錯了QQ 再搶一次嗎? 跳過請按下一首')
 
         self.ScoreBox1.SetLabel('Player 1 得分: %s' % self.score_1)
         self.ScoreBox2.SetLabel('Player 2 得分: %s' % self.score_2)
@@ -195,6 +210,12 @@ class PanelTwo(wx.Panel):
         self.player_num = 0
         self.ScoreBox1.SetForegroundColour('black')
         self.ScoreBox2.SetForegroundColour('black')
+
+        if self.correct:
+            self.CannotAnswer()
+        else:
+            self.CanAnswer()
+
 
     def ChangePlayer(self, player):
         # self.count = -1
@@ -257,10 +278,13 @@ class MyMusicPlayer(wx.Frame):
         kc = event.GetKeyCode()
         # event.DoAllowNextEvent()
 
-        if kc == 316:
-            PanelTwo.ChangePlayer(self.panel_two, player=1)
-        elif kc == 396:
-            PanelTwo.ChangePlayer(self.panel_two, player=2)
+        if PanelTwo.GetAnswerStatus(self.panel_two):
+            if kc == 316:
+                PanelTwo.ChangePlayer(self.panel_two, player=1)
+                PanelTwo.CannotAnswer(self.panel_two)
+            elif kc == 396:
+                PanelTwo.ChangePlayer(self.panel_two, player=2)
+                PanelTwo.CannotAnswer(self.panel_two)
         event.Skip()
 
 
