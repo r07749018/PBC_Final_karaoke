@@ -63,6 +63,8 @@ class PanelOne(wx.Panel):
     def ClickCat4(self, event):
         self.ClickCat("KTV必點金曲")
 
+    def ChangeTitle(self, title):
+        self.titleName.SetLabel(title)
 
 class PanelTwo(wx.Panel):
 
@@ -92,7 +94,11 @@ class PanelTwo(wx.Panel):
 
         self.GuessBox = wx.TextCtrl(self, pos=(300,200), size=(185, 25), value='')
         self.GuessBox.Bind(wx.EVT_KEY_DOWN, parent.OnKeyDown)
+        # self.GuessBox.Bind(wx.EVT_KEY_DOWN, parent.EnterPressed)
+
         self.Bind(wx.EVT_KEY_DOWN, parent.OnKeyDown)
+
+        # self.Bind(wx.EVT_KEY_DOWN, parent.EnterPressed)
 
         self.SubmitAnsButton = wx.Button(self, label='送出', pos=(350, 250))
         self.Bind(wx.EVT_BUTTON, self.CheckAns, self.SubmitAnsButton)
@@ -119,6 +125,7 @@ class PanelTwo(wx.Panel):
 
         pygame.mixer.init()
 
+
     def GetAnswerStatus(self):
         return self.answerable
 
@@ -144,6 +151,11 @@ class PanelTwo(wx.Panel):
         self.ScoreBox1.SetLabel('Player 1 得分: %s' % self.score_1)
         self.ScoreBox2.SetLabel('Player 2 得分: %s' % self.score_2)
         self.CorrectOrNot.SetLabel('')
+
+        self.player_num = 0
+        self.ScoreBox1.SetForegroundColour('black')
+        self.ScoreBox2.SetForegroundColour('black')
+        self.CannotAnswer()
 
     def OnStartClicked(self, event):
         self.isPaused = False
@@ -260,17 +272,21 @@ class MyMusicPlayer(wx.Frame):
 
     def onSwitchPanels(self, event):
         if self.panel_one.IsShown():
-            self.SetTitle("PCB KTV")
-            self.panel_one.Hide()
-            self.panel_two.Show()
-            PanelTwo.SetInfoText(self.panel_two)
-            PanelTwo.SetStartSong(self.panel_two)
+            if musicUrlList:
+                self.SetTitle("PCB KTV")
+                self.panel_one.Hide()
+                self.panel_two.Show()
+                PanelTwo.SetInfoText(self.panel_two)
+                PanelTwo.SetStartSong(self.panel_two)
+            else:
+                PanelOne.ChangeTitle(self.panel_one, '選個目錄吧!')
 
         else:
             self.SetTitle("PCB KTV")
             self.panel_one.Show()
             self.panel_two.Hide()
             pygame.mixer.music.stop()
+            PanelOne.ChangeTitle(self.panel_one, 'Pick One Again!')
 
         self.Layout()
 
@@ -285,7 +301,16 @@ class MyMusicPlayer(wx.Frame):
             elif kc == 396:
                 PanelTwo.ChangePlayer(self.panel_two, player=2)
                 PanelTwo.CannotAnswer(self.panel_two)
+        else:
+            if kc == 13:
+                PanelTwo.CheckAns(self.panel_two, event=PanelTwo.GetEventHandler(self.panel_two))
+
         event.Skip()
+
+    # def EnterPressed(self, event):
+    #     kc = event.GetKeyCode()
+    #     if kc == 13:
+    #         PanelTwo.CheckAns(self.panel_two)
 
 
 file_path = os.getcwd() + '/'
